@@ -9,6 +9,8 @@ import com.controleservico.os.repository.PeopleRepository;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.jni.Address;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
@@ -27,10 +29,42 @@ public class AddressService {
         return listAddressDto;
     }
 
+    public ResponseEntity<AddressDto> findBy(Long id) {
+        return addressRepository.findById(id)
+                .map(addressUser -> ResponseEntity.ok(AddressMapper.toDto(addressUser)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     @Transient
     public AddressDto save(@NotNull AddressDto addressDto) {
         //peopleRepository.save(PeopleMapper.toPeopleEntity(addressDto.getOwner())); -> cascade=CascadeType.PERSIST
         return AddressMapper.toDto(addressRepository.save(AddressMapper.toAddressEntity(addressDto)));
+    }
+
+    public ResponseEntity deleteBy(Long id) {
+        return addressRepository.findById(id)
+                .map(address -> {
+                    addressRepository.delete(address);
+                    return ResponseEntity.ok().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    public ResponseEntity<AddressUser> update(AddressUser addressUser) {
+        return addressRepository.findById(addressUser.getId())
+                .map(oldAddress -> {
+                    oldAddress.setAddressType(addressUser.getAddressType());
+                    oldAddress.setCep(addressUser.getCep());
+                    oldAddress.setCity(addressUser.getCity());
+                    oldAddress.setComplement(addressUser.getComplement());
+                    oldAddress.setDistrict(addressUser.getDistrict());
+                    oldAddress.setNumber(addressUser.getNumber());
+                    oldAddress.setOwner(addressUser.getOwner());
+
+                    return new ResponseEntity<>(addressRepository.save(oldAddress), HttpStatus.CREATED);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }

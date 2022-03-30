@@ -22,11 +22,32 @@ public class AddressController {
         return addressService.getAll();
     }
 
-    @PutMapping
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<AddressDto> findBy(@PathVariable Long id){
+        return addressService.findBy(id);
+    }
+
+    @PostMapping
     @RequestMapping("/new")
     public ResponseEntity<AddressDto> save(@RequestBody AddressDto addressDto){
         return new ResponseEntity<>(addressService.save(addressDto), HttpStatus.CREATED);
     }
+
+    @DeleteMapping(path = "/remove/{id}")
+    public ResponseEntity deleteBy(@PathVariable Long id) {
+        return addressService.deleteBy(id);
+    }
+
+    @PutMapping(path = "/update")
+    public ResponseEntity<AddressUser> update(@RequestBody AddressUser addressUser){
+        return addressService.update(addressUser);
+    }
+
+
+
+
+
+
 
 
 
