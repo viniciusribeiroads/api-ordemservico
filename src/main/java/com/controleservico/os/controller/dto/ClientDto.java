@@ -17,4 +17,14 @@ public class ClientDto {
         this.client = client;
         this.listAddress = listAddress;
     }
+
+
+
+    public PeopleDto getClient() {
+        return client;
+    }
+
+    public List<AddressDto> getListAddress() {
+        return listAddress;
+    }
 }
