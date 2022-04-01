@@ -21,8 +21,8 @@ public class AddressMapper {
     }
 
 
-    @Contract("_ -> new")
-    public static @NotNull AddressDto toDto(@NotNull AddressUser addressUser){
+
+    public static AddressDto toDto( AddressUser addressUser){
         return new AddressDto(
                 addressUser.getAddressType(),
                 addressUser.getNumber(),

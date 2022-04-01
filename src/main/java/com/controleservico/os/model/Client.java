@@ -11,7 +11,7 @@ public class Client{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "client")
     private People client;
 
@@ -45,4 +45,6 @@ public class Client{
         this.client = client;
         this.listAddress = listAddress;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.controleservico.os.service;
 
 import com.controleservico.os.controller.dto.ClientDto;
 import com.controleservico.os.mapper.ClientMapper;
+import com.controleservico.os.model.AddressUser;
 import com.controleservico.os.model.Client;
 import com.controleservico.os.repository.ClientRepository;
 import com.controleservico.os.repository.PeopleRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,11 @@ public class ClientService {
     private PeopleRepository peopleRepository;
 
 
+
     public List<ClientDto> listAll() {
         List<ClientDto> clientDtoList = new ArrayList<>();
         clientRepository.findAll()
-                .forEach(client -> clientDtoList.add(ClientMapper.toDto(client)));
+                .forEach(clientEntity -> clientDtoList.add(ClientMapper.toDto(clientEntity)));
         return clientDtoList;
     }
 
@@ -38,12 +41,16 @@ public class ClientService {
     }
 
 
+    @Transient
     @SneakyThrows
-    public ResponseEntity<Client> create(Client client) {
+    public ResponseEntity<ClientDto> create(ClientDto client) {
+        Client clientEntity = new Client();
+        clientEntity = ClientMapper.toClientEntity(client);
         if (existsByCpf(client.getClient().getCpf())) {
             throw new SQLIntegrityConstraintViolationException("Esse CPF ja existe!");
         }
-        return new ResponseEntity<>(clientRepository.save(client), HttpStatus.CREATED);
+        clientRepository.save(clientEntity);
+        return new ResponseEntity<ClientDto>(ClientMapper.toDto(clientRepository.save(clientEntity)), HttpStatus.CREATED);
     }
 
     private boolean existsByCpf(String cpf){
@@ -51,6 +58,7 @@ public class ClientService {
     }
 
 
+    @Transient
     public ResponseEntity<Client> update(Client client) {
         return clientRepository.findById(client.getId())
                 .map(oldClient -> {
@@ -62,6 +70,7 @@ public class ClientService {
     }
 
 
+    @Transient
     public ResponseEntity deleteBy(Long id) {
         return clientRepository.findById(id)
                 .map(client -> {

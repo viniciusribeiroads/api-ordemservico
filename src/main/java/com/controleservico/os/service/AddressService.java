@@ -25,7 +25,10 @@ public class AddressService {
 
     public List<AddressDto> getAll() {
         List<AddressDto> listAddressDto = new ArrayList<>();
-        addressRepository.findAll().forEach(address -> listAddressDto.add(AddressMapper.toDto(address)));
+        addressRepository.findAll()
+                .stream()
+                .forEach( address ->
+            listAddressDto.add(AddressMapper.toDto(address)));
         return listAddressDto;
     }
 

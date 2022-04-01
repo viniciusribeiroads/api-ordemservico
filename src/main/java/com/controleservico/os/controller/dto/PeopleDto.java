@@ -1,7 +1,9 @@
 package com.controleservico.os.controller.dto;
 
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
+import java.util.Date;
+@NoArgsConstructor
 public class PeopleDto {
 
     private String name;
@@ -26,5 +28,17 @@ public class PeopleDto {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

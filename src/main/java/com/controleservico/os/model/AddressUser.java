@@ -1,6 +1,9 @@
 package com.controleservico.os.model;
 
 import com.controleservico.os.model.enums.AddressType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
 
@@ -11,18 +14,26 @@ public class AddressUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private AddressType addressType;
 
+    @NotNull
     private int number;
 
+    @NotNull
     private String district;
 
+    @NotNull
     private String city;
 
+    @NotNull
     private String cep;
 
+    @NotNull
     private String complement;
 
+
+    @NotNull
     @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "owner_id")
     private People owner;

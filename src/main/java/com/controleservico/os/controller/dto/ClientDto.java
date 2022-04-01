@@ -16,6 +16,13 @@ public class ClientDto {
     public ClientDto(PeopleDto client, List<AddressDto> listAddress) {
         this.client = client;
         this.listAddress = listAddress;
+        PeopleDto owner = new PeopleDto();
+        this.listAddress.stream().forEach(address -> {
+            owner.setBirthDate(client.getBirthDate());
+            owner.setCpf(client.getCpf());
+            owner.setName(client.getName());
+            address.setOwner(owner);
+        });
     }
 
 

@@ -59,4 +59,8 @@ public class AddressDto {
     public PeopleDto getOwner() {
         return owner;
     }
+
+    public void setOwner(PeopleDto owner) {
+        this.owner = owner;
+    }
 }

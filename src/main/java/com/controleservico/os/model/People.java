@@ -1,6 +1,8 @@
 package com.controleservico.os.model;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,10 +13,13 @@ public class People {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private Date birthDate;
 
+    @NotNull
     private String cpf;
 
     public People() {
