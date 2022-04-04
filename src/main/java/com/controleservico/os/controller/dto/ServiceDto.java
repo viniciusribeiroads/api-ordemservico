@@ -1,17 +1,17 @@
-package com.controleservico.os.model;
+package com.controleservico.os.controller.dto;
 
+import com.controleservico.os.model.Client;
+import com.controleservico.os.model.Driver;
+import com.controleservico.os.model.Vehicle;
 import com.controleservico.os.model.enums.Status;
 
-import javax.persistence.*;
-import javax.xml.crypto.Data;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.time.Instant;
 import java.util.Date;
 
-@Entity
-public class Service {
+public class ServiceDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Date date;
 
@@ -19,27 +19,27 @@ public class Service {
 
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "driver_id")
     private Driver driverService;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicleService_id")
     private Vehicle vehicleService;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicleClient_id")
     private Vehicle vehicleClient;
 
-    public Service() {
+    public ServiceDto(){}
+
+    public ServiceDto(String description, Driver driverService, Vehicle vehicleService, Client client, Vehicle vehicleClient) {
+        this.date = Date.from(Instant.now());
+        this.status = Status.getStatusByCode(1);
+        this.description = description;
+        this.driverService = driverService;
+        this.vehicleService = vehicleService;
+        this.client = client;
+        this.vehicleClient = vehicleClient;
     }
 
-    public Service(Long id, Date date, int statusCode, String description, Driver driverService, Vehicle vehicleService, Client client, Vehicle vehicleClient) {
-        this.id = id;
+    public ServiceDto(Date date,String description, int statusCode, Driver driverService, Vehicle vehicleService, Client client, Vehicle vehicleClient) {
         this.date = date;
         this.description = description;
         this.status = Status.getStatusByCode(statusCode);
@@ -51,14 +51,6 @@ public class Service {
 
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -67,16 +59,16 @@ public class Service {
         this.date = date;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(String description) {
