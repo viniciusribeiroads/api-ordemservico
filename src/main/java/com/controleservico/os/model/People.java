@@ -1,6 +1,7 @@
 package com.controleservico.os.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class People {
     private String name;
 
     @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
 
     @NotNull

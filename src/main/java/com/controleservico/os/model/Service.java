@@ -1,6 +1,7 @@
 package com.controleservico.os.model;
 
 import com.controleservico.os.model.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.xml.crypto.Data;
@@ -13,6 +14,8 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date date;
 
     private String description;
