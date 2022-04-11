@@ -34,7 +34,7 @@ public class AddressUser {
 
 
     @NotNull
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private People owner;
 
@@ -129,5 +129,31 @@ public class AddressUser {
                 ", complement='" + complement + '\'' +
                 ", owner=" + owner +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressUser)) return false;
+
+        AddressUser that = (AddressUser) o;
+
+        if (number != that.number) return false;
+        if (addressType != that.addressType) return false;
+        if (!district.equals(that.district)) return false;
+        if (!city.equals(that.city)) return false;
+        if (!cep.equals(that.cep)) return false;
+        return complement.equals(that.complement);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = addressType.hashCode();
+        result = 31 * result + number;
+        result = 31 * result + district.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + cep.hashCode();
+        result = 31 * result + complement.hashCode();
+        return result;
     }
 }

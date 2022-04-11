@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class AddressController {
 
     @PostMapping
     @RequestMapping("/new")
-    public ResponseEntity<AddressDto> save(@RequestBody AddressDto addressDto){
+    public ResponseEntity<AddressDto> save(@RequestBody AddressDto addressDto) throws SQLIntegrityConstraintViolationException {
         return new ResponseEntity<>(addressService.save(addressDto), HttpStatus.CREATED);
     }
 

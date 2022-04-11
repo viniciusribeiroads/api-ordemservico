@@ -4,7 +4,6 @@ import com.controleservico.os.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 @Entity
@@ -16,7 +15,9 @@ public class Service {
 
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date date;
+    private Date dateInit;
+
+    private Date dateFinalized;
 
     private String description;
 
@@ -43,7 +44,7 @@ public class Service {
 
     public Service(Long id, Date date, int statusCode, String description, Driver driverService, Vehicle vehicleService, Client client, Vehicle vehicleClient) {
         this.id = id;
-        this.date = date;
+        this.dateInit = date;
         this.description = description;
         this.status = Status.getStatusByCode(statusCode);
         this.driverService = driverService;
@@ -62,12 +63,12 @@ public class Service {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateInit() {
+        return dateInit;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateInit(Date dateInit) {
+        this.dateInit = dateInit;
     }
 
     public Status getStatus() {
@@ -117,4 +118,27 @@ public class Service {
     public void setVehicleClient(Vehicle vehicleClient) {
         this.vehicleClient = vehicleClient;
     }
+
+    public void finalizeOrder(Date dateFinalized){
+        this.dateFinalized = dateFinalized;
+        this.status = Status.CLOSE;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id=" + id +
+                ", dateInit=" + dateInit +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", driverService=" + driverService +
+                ", vehicleService=" + vehicleService +
+                ", client=" + client +
+                ", vehicleClient=" + vehicleClient +
+                '}';
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package com.controleservico.os.model;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Driver{
     @OneToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "driver")
     private People driver;
+
 
     @OneToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name = "driver_address")

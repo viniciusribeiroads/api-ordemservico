@@ -63,4 +63,32 @@ public class AddressDto {
     public void setOwner(PeopleDto owner) {
         this.owner = owner;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressDto)) return false;
+
+        AddressDto that = (AddressDto) o;
+
+        if (number != that.number) return false;
+        if (addressType != that.addressType) return false;
+        if (district != null ? !district.equals(that.district) : that.district != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (cep != null ? !cep.equals(that.cep) : that.cep != null) return false;
+        if (complement != null ? !complement.equals(that.complement) : that.complement != null) return false;
+        return owner != null ? owner.equals(that.owner) : that.owner == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = addressType != null ? addressType.hashCode() : 0;
+        result = 31 * result + number;
+        result = 31 * result + (district != null ? district.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (cep != null ? cep.hashCode() : 0);
+        result = 31 * result + (complement != null ? complement.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        return result;
+    }
 }

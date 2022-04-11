@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class AddressService {
         List<AddressDto> listAddressDto = new ArrayList<>();
         addressRepository.findAll()
                 .stream()
-                .forEach( address ->
-            listAddressDto.add(AddressMapper.toDto(address)));
+                .forEach(address ->
+                        listAddressDto.add(AddressMapper.toDto(address)));
         return listAddressDto;
     }
 
@@ -40,9 +41,18 @@ public class AddressService {
 
 
     @Transient
-    public AddressDto save(@NotNull AddressDto addressDto) {
+    public AddressDto save(@NotNull AddressDto addressDto) throws SQLIntegrityConstraintViolationException {
         //peopleRepository.save(PeopleMapper.toPeopleEntity(addressDto.getOwner())); -> cascade=CascadeType.PERSIST
-        return AddressMapper.toDto(addressRepository.save(AddressMapper.toAddressEntity(addressDto)));
+        AddressUser address = AddressMapper.toAddressEntity(addressDto);
+        List<AddressUser> listAddress = addressRepository.findAll();
+
+        boolean alreadyRegistered = listAddress.stream()
+                .anyMatch(address::equals);
+
+        if (alreadyRegistered) {
+            throw new SQLIntegrityConstraintViolationException("Objeto já está salvo!");
+        }
+        return AddressMapper.toDto(addressRepository.save(address));
     }
 
     public ResponseEntity deleteBy(Long id) {

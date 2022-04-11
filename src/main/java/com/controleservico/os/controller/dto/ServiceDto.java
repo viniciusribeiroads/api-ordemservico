@@ -13,7 +13,9 @@ import java.util.Date;
 public class ServiceDto {
 
 
-    private Date date;
+    private Date dateInitialized;
+
+    private Date dateFinalized;
 
     private String description;
 
@@ -30,7 +32,7 @@ public class ServiceDto {
     public ServiceDto(){}
 
     public ServiceDto(String description, Driver driverService, Vehicle vehicleService, Client client, Vehicle vehicleClient) {
-        this.date = Date.from(Instant.now());
+        this.dateInitialized = Date.from(Instant.now());
         this.status = Status.getStatusByCode(1);
         this.description = description;
         this.driverService = driverService;
@@ -40,7 +42,7 @@ public class ServiceDto {
     }
 
     public ServiceDto(Date date,String description, int statusCode, Driver driverService, Vehicle vehicleService, Client client, Vehicle vehicleClient) {
-        this.date = date;
+        this.dateInitialized = date;
         this.description = description;
         this.status = Status.getStatusByCode(statusCode);
         this.driverService = driverService;
@@ -52,11 +54,11 @@ public class ServiceDto {
 
 
     public Date getDate() {
-        return date;
+        return dateInitialized;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.dateInitialized = date;
     }
 
     public String getDescription() {

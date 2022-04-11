@@ -2,14 +2,13 @@ package com.controleservico.os.mapper;
 
 import com.controleservico.os.controller.dto.ServiceDto;
 import com.controleservico.os.model.Service;
-import com.controleservico.os.model.Vehicle;
 import org.springframework.beans.BeanUtils;
 
 public class ServiceMapper {
 
     public static ServiceDto toDto(Service service){
         return new ServiceDto(
-                service.getDate(),
+                service.getDateInit(),
                 service.getDescription(),
                 service.getStatus().getCode(),
                 service.getDriverService(),
